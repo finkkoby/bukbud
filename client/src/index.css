@@ -1,3 +1,14 @@
+@font-face {
+  font-family: titleFont;
+  src: url(./fonts/lemon_tuesday.otf);
+}
+
+@font-face {
+  font-family: textFont;
+  src: url(./fonts/bright_chalk.ttf);
+}
+
+
 :root {
   --bg: #282c34;
   --header: #fff;
@@ -5,3 +16,33 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+div#header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: orange;
+  margin: 0px -10px;
+  padding: 0px;
+}
+h1#site-name {
+  font-size: 80px;
+  font-weight: bold;
+  color: var(--text);
+  margin: 10px 0px 10px 60px;
+  font-family: titleFont;
+  letter-spacing: 13px;
+}
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 7px;
+  margin-right: 15px;
+}
+nav > * {
+  text-decoration: none;
+  color: darkslategrey;
+  margin: 5px 0px 5px 40px;
+  font-family: textFont;
+  letter-spacing: 5px;
+}

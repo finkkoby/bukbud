@@ -32,7 +32,7 @@ class User(db.Model, SerializerMixin):
     
     @hybrid_property
     def password_hash(self):
-        raise PermissionError('Cannot access password hash')
+        raise AttributeError('Password hashes may not be viewed.')
     
     @password_hash.setter
     def password_hash(self, password):
@@ -41,4 +41,4 @@ class User(db.Model, SerializerMixin):
 
     # Other methods
     def authenticate(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
+        return bcrypt.check_password_hash(self._password_hash, password)

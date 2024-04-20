@@ -8,29 +8,63 @@
   src: url(./fonts/bright_chalk.ttf);
 }
 
+html {
+  font-family: textFont;
+  letter-spacing: 5px;
+  color: var(--five);
+}
+
+button {
+  margin: auto;
+  border: none;
+  padding: 5px 40px;
+  background-color: var(--five);
+  color: white;
+  font-family: textFont;
+  font-size: large;
+  letter-spacing: 5px;
+  text-shadow: var(--two) -2px 2px;
+  border-radius: 2px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:active {
+  box-shadow: var(--two) 0px 0px 4px;
+}
+
+h3 {
+  color: var(--two)
+}
+
 
 :root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+  --one: #F78404;
+  --two: #EE7804;
+  --three: #FFFC9E;
+  --four: #FFE26C;
+  --five: #FB9D14;
+  background-color: var(--four);
 }
 
 div#header {
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: orange;
+  background-color: var(--five);
   margin: 0px -10px;
   padding: 0px;
 }
 h1#site-name {
   font-size: 80px;
   font-weight: bold;
-  color: var(--text);
-  margin: 10px 0px 10px 60px;
+  color: white;
+  margin: 10px 0px 10px 80px;
   font-family: titleFont;
   letter-spacing: 13px;
+  text-shadow: var(--two) -5px 8px;
 }
 nav {
   display: flex;
@@ -38,11 +72,74 @@ nav {
   justify-content: flex-end;
   margin-bottom: 7px;
   margin-right: 15px;
+  margin: 0px -10px 10px -10px;
+  background-color: var(--three);
+  padding: 0px 50px;
 }
-nav > * {
+nav a {
   text-decoration: none;
-  color: darkslategrey;
-  margin: 5px 0px 5px 40px;
+  color: var(--five);
+  padding: 8px 40px 8px 40px;
   font-family: textFont;
   letter-spacing: 5px;
+}
+
+nav a:hover {
+  background-color: var(--four);
+}
+
+/* nav a.active {
+  background-color: var(--four);
+} */
+
+nav a:active {
+  box-shadow: var(--two) 0px 0px 3px;
+}
+
+div#search-bar {
+  background-color: var(--three);
+  border-style: solid;
+  border-width: 10px;
+  border-color: white;
+  margin: 20px 30px;
+}
+
+div#signup-body {
+  background-color: var(--three);
+  border-style: solid;
+  border-width: 10px;
+  border-color: white;
+  margin: 20px 30px;
+  box-sizing: content-box;
+  width: max-content;
+  padding: 20px;
+  margin: auto;
+}
+
+form#login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-fields {
+  all: inherit;
+  margin: 20px;
+}
+
+form input {
+  border-style: none;
+  margin: 8px;
+}
+
+span.special-text {
+  font-family: titleFont;
+  font-size: 50px;
+  color: white;
+  text-shadow: var(--two) -2px 2px 2px;
+}
+
+h3#login-header {
+  position: relative;
+  left: 20%;
 }

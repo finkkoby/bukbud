@@ -23,6 +23,9 @@ if __name__ == '__main__':
         print("Creating users...")
         users = []
         usernames = []
+        user1 = User(username='myusername', age=23)
+        user1.password_hash = 'mypassword'
+        users.append(user1)
         for i in range(25):
             username = fake.user_name()
             while username in usernames:

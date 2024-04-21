@@ -11,7 +11,7 @@
 html {
   font-family: textFont;
   letter-spacing: 5px;
-  color: var(--five);
+  color: var(--two);
 }
 
 button {
@@ -74,7 +74,6 @@ nav {
   margin-right: 15px;
   margin: 0px -10px 10px -10px;
   background-color: var(--three);
-  padding: 0px 50px;
 }
 nav a {
   text-decoration: none;
@@ -82,6 +81,7 @@ nav a {
   padding: 8px 40px 8px 40px;
   font-family: textFont;
   letter-spacing: 5px;
+  text-shadow: var(--two) -1px 1px;
 }
 
 nav a:hover {
@@ -104,32 +104,34 @@ div#search-bar {
   margin: 20px 30px;
 }
 
-div#signup-body {
+div.form-body {
   background-color: var(--three);
   border-style: solid;
   border-width: 10px;
   border-color: white;
-  margin: 20px 30px;
   box-sizing: content-box;
   width: max-content;
-  padding: 20px;
+  padding: 20px 70px;
   margin: auto;
 }
 
-form#login-form {
+div.form-body form{
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
+  font-size:larger;
 }
 
 .input-fields {
   all: inherit;
-  margin: 20px;
+  margin: 50px;
 }
 
 form input {
   border-style: none;
-  margin: 8px;
+  margin: 10px;
+  padding: 15px;
+  letter-spacing: 2px;
 }
 
 span.special-text {
@@ -139,7 +141,32 @@ span.special-text {
   text-shadow: var(--two) -2px 2px 2px;
 }
 
-h3#login-header {
+span.special {
+  font-family: titleFont;
+  font-size: 40px;
+}
+
+span.special:hover {
+  cursor: pointer;
+}
+
+span.special:active {
+  text-shadow: var(--two) -1px 1px 4px;
+}
+
+h3.login-header {
   position: relative;
   left: 20%;
+}
+
+p span {
+  font-size: large;
+}
+
+p.center {
+  text-align: center;
+}
+
+label {
+  font-size: larger;
 }

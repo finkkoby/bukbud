@@ -9,9 +9,8 @@ const initialState = {
     status: "pending",
   };
 
-function Login() {
+function Login({ setSignup, setUser }) {
     const [{ user, error, status }, setState] = useState(initialState);
-    const { setLoggedIn } = useOutletContext();
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -31,7 +30,7 @@ function Login() {
             .then(r => {
                 if (r.ok) {
                     r.json().then(res => {
-                        setLoggedIn(true);
+                        setUser(res);
                         setState({
                             user: res.username,
                             error: null,
@@ -51,12 +50,11 @@ function Login() {
             })
         }
     });
-    
 
     return (
         <>
-            <h3 id='login-header'>see what we're <span className='special-text'>buzzing</span> about...</h3>
-            <div id="signup-body">
+            <h3 className='login-header'>see what we're <span className='special-text'>buzzing</span> about...</h3>
+            <div className="form-body">
                 <form id="login-form" onSubmit={formik.handleSubmit}>
                     <div className='input-fields'>
                         <label htmlFor='username'>
@@ -81,6 +79,7 @@ function Login() {
                     <button type="submit">login</button>
                     { error ? <p>{error}</p> : null}
                 </form>
+                <p className="center">want to join the hive? <span className="special" onClick={() => setSignup(true)}>signup</span></p>
             </div>
         </>
     );

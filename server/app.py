@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, session
+from flask import request, session, make_response
 from flask_restful import Resource
 
 # Local imports
@@ -17,20 +17,56 @@ from models import User
 def index():
     return '<h1>Project Server</h1>'
 
+class Clear(Resource):
+    def get(self):
+        session.clear()
+        return {'message': 'Session cleared'}, 200
+
+class CheckSession(Resource):
+    def get(self):
+        if session.get('user-id'):
+            user = User.query.filter(User.id == session.get('user-id')).first()
+            return user.to_dict(), 200
+        else:
+            return {}, 401
+
 class Login(Resource):
     def post(self):
         json = request.get_json()
-        username = json.get('username')
-        user = User.query.filter(User.username == username).first()
-        if user:
-            if user.authenticate(json['password']):
-                session['user_id'] = user.id
-                return user.to_dict(), 200
+        try:
+            username = json.get('username')
+            user = User.query.filter(User.username == username).first()
+            if user:
+                if user.authenticate(json['password']):
+                    session['user_id'] = user.id
+                    return make_response(user.to_dict(), 200)
+                else:
+                    return make_response({'error': 'Invalid username or password'}, 400)
+            else:
+                return make_response({'error': 'Invalid username or password'}, 400)
+        except:
+            return make_response({'error': 'Invalid username or password'}, 400)
+        
+class Signup(Resource):
+    def post(self):
+        json = request.get_json()
+        try:
+            user = User(username=json['username'], age=json['age'])
+        except:
+            return {'error': 'Username already taken'}, 400
+        if json['password'] == json['confirm_password']:
+            user.password_hash = json['password']
         else:
-            return {'error': 'Invalid username or password'}, 400
+            return {'error': 'Passwords do not match'}, 400
+        db.session.add(user)
+        db.session.commit()
+        session['user_id'] = user.id
+        return user.to_dict(), 200
                 
 
 api.add_resource(Login, '/api/login')
+api.add_resource(Signup, '/api/signup')
+api.add_resource(CheckSession, '/api/check-session')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

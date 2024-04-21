@@ -24,9 +24,9 @@ class Clear(Resource):
 
 class CheckSession(Resource):
     def get(self):
-        if session.get('user-id'):
-            user = User.query.filter(User.id == session.get('user-id')).first()
-            return user.to_dict(), 200
+        if session.get('user_id'):
+            user = User.query.filter(User.id == session.get('user_id')).first()
+            return make_response(user.to_dict(), 200)
         else:
             return {}, 401
 
@@ -62,11 +62,18 @@ class Signup(Resource):
         db.session.commit()
         session['user_id'] = user.id
         return user.to_dict(), 200
+    
+class Logout(Resource):
+    def get(self):
+        if session.get('user_id'):
+            session['user_id'] = None
+            return {'message': 'Session cleared'}, 200
                 
 
 api.add_resource(Login, '/api/login')
 api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check-session')
+api.add_resource(Logout, '/api/logout')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

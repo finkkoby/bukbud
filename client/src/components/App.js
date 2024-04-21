@@ -19,6 +19,17 @@ function App() {
     });
   }, []);
 
+  function handleLogout() {
+    fetch('http://localhost:5555/api/logout').then((response) => {
+        if (response.ok) {
+            response.json().then(() => {
+              setSignup(false)
+              setUser(null)
+            });
+        }
+    });
+}
+
   if (!user) {
     return (
       <>
@@ -31,7 +42,7 @@ function App() {
 
   return (
       <div>
-        <NavBar />
+        <NavBar handleLogout={handleLogout} />
         <Header />
         <Outlet context={{
           "signup": signup,

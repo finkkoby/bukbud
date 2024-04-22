@@ -57,6 +57,21 @@ div#header {
   margin: 0px -10px;
   padding: 0px;
 }
+h1.title-header {
+  position: relative;
+  left: 10%;
+  font-size: 60px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+h1.title-header span.special-text {
+  font-family: titleFont;
+  font-size: 80px;
+  color: white;
+  text-shadow: var(--two) -4px 5px;
+  letter-spacing: 10px;
+}
+
 h1#site-name {
   font-size: 80px;
   font-weight: bold;
@@ -66,6 +81,7 @@ h1#site-name {
   letter-spacing: 13px;
   text-shadow: var(--two) -5px 8px;
 }
+
 nav {
   display: flex;
   flex-direction: row;
@@ -139,6 +155,7 @@ span.special-text {
   font-size: 50px;
   color: white;
   text-shadow: var(--two) -2px 2px 2px;
+  letter-spacing: 10px;
 }
 
 span.special {
@@ -173,14 +190,41 @@ label {
 
 div.review-card {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  position: relative;
+  top: 0;
+  transition: top ease 0.25s;
   background-color: var(--five);
   border-style: solid;
   border-width: 10px;
   border-color: white;
   box-sizing: content-box;
   width: 70%;
-  padding: 20px 70px;
-  margin: auto;
+  padding: 10px 20px;
+  margin: 15px auto;
+}
+
+div.review-card:hover {
+  top: -5px;
+}
+
+.review {
+  margin: 10px;
+}
+
+small.review {
+  align-self: flex-end;
+}
+
+div.review-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: white;
+}
+
+div.book-image img{
+  width: 200px;
+  height: 320px;
+  margin: 10px;
 }

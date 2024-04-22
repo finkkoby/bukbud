@@ -64,7 +64,7 @@ if __name__ == '__main__':
             author = authors[randint(0, 24)]
             length = randint(100, 1000)
             genre = rc(genres)
-            books.append(Book(title=title, author=author, length=length, genre=genre))
+            books.append(Book(title=title, author=author, length=length, genre=genre, image="https://m.media-amazon.com/images/I/81QPHl7zgbL._AC_UF1000,1000_QL80_.jpg"))
         db.session.add_all(books)
 
         print("Creating reviews...")

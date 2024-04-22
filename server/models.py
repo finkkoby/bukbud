@@ -81,6 +81,7 @@ class Book(db.Model, SerializerMixin):
     title = db.Column(db.String, nullable=False)
     length = db.Column(db.Integer, nullable=False)
     genre = db.Column(db.String)
+    image = db.Column(db.String)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'), nullable=False)
 
     # Relationships

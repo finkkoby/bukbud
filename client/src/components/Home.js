@@ -10,7 +10,7 @@ function Home() {
 
     return (
         <div>
-            <h1>User Home</h1>
+            <h1 className="title-header">the latest <span className="special-text">buzz</span>...</h1>
             {reviewCards}
         </div>
     );

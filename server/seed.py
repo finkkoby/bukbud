@@ -2,6 +2,7 @@
 
 # Standard library imports
 from random import randint, choice as rc
+import ipdb
 
 # Remote library imports
 from faker import Faker
@@ -16,6 +17,9 @@ if __name__ == '__main__':
         fake = Faker()
         print("Deleting tables...")
         User.query.delete()
+        Author.query.delete()
+        Book.query.delete()
+        Review.query.delete()
         
         print("Starting seed...")
         # Seed code goes here!
@@ -56,6 +60,7 @@ if __name__ == '__main__':
         genres = ["Fiction", "Fantasy", "Science Fiction", "Mystery", "Romance", "Historical Fiction", "Non-Fiction", "Thriller", "Graphic Novel"]
         for i in range(25):
             title = fake.sentence().title()
+            title = title.replace(".", '')
             author = authors[randint(0, 24)]
             length = randint(100, 1000)
             genre = rc(genres)

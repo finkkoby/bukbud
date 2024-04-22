@@ -68,12 +68,18 @@ class Logout(Resource):
         if session.get('user_id'):
             session['user_id'] = None
             return {'message': 'Session cleared'}, 200
+        
+class Reviews(Resource):
+    def get(self):
+        reviews = [review.to_dict() for review in Review.query.all()]
+        return make_response(reviews, 200)
                 
 
 api.add_resource(Login, '/api/login')
 api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check-session')
 api.add_resource(Logout, '/api/logout')
+api.add_resource(Reviews, '/api/reviews')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

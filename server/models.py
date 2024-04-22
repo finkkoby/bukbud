@@ -109,7 +109,7 @@ class Author(db.Model, SerializerMixin):
     books = db.relationship("Book", back_populates="author")
 
     # Serialize Rules
-    serialize_rules = ('-books.author')
+    serialize_rules = ('-books.author',)
 
 
     # Other methods

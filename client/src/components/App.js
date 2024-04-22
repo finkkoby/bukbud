@@ -10,6 +10,8 @@ import Signup from "./Signup"
 function App() {
   const [signup, setSignup] = useState(false);
   const [user, setUser] = useState(null)
+  const [reviews, setReviews] = useState([])
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     fetch('http://localhost:5555/api/check-session').then((response) => {
@@ -18,6 +20,22 @@ function App() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:5555/api/reviews')
+    .then((r) => {
+       if (r.ok) {
+         r.json().then((res) => {
+           setReviews(res)
+         })
+       }
+       else {
+         r.json().then((res) => {
+           setError(res.error)
+         })
+       }
+    })
+  }, [])
 
   function handleLogout() {
     fetch('http://localhost:5555/api/logout').then((response) => {
@@ -48,7 +66,8 @@ function App() {
           "signup": signup,
           "user": user,
           "setSignup": setSignup,
-          "setUser": setUser
+          "setUser": setUser,
+          "reviews": reviews
           }} />
       </div>
   );

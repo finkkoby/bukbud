@@ -76,7 +76,7 @@ class Reviews(Resource):
     
 class Books(Resource):
     def get(self):
-        books = [book.to_dict() for book in Book.query.all()]
+        books = [book.to_dict() for book in Book.query.order_by('title').all()]
         return make_response(books, 200)
                 
 

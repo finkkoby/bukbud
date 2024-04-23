@@ -2,8 +2,6 @@ import React from "react";
 import { useFormik } from "formik";
 import { useState } from "react";
 
-import { useOutletContext } from "react-router-dom";
-
 const initialState = {
     user: null,
     error: null,

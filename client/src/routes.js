@@ -2,6 +2,7 @@ import App from "./components/App";
 import Home from "./components/Home";
 import Books from "./components/Books";
 import Profile from "./components/Profile";
+import AddNewReview from "./components/AddNewReview";
 
 const routes = [
     {
@@ -10,7 +11,7 @@ const routes = [
         children: [
             {
                 path: '/',
-                element: <Home />
+                element: <Home />,
             },
             {
                 path: '/books',
@@ -19,6 +20,10 @@ const routes = [
             {
                 path: '/profile',
                 element: <Profile />
+            },
+            {
+                path: '/add-new-review',
+                element: <AddNewReview />
             }
         ]
     }

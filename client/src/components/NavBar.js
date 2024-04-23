@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { NavLink } from "react-router-dom"
+import { NavLink, Link } from "react-router-dom"
 
 function NavBar({ handleLogout }) {
     
@@ -9,7 +9,7 @@ function NavBar({ handleLogout }) {
             <NavLink to="/">home</NavLink>
             <NavLink to="/books">books</NavLink>
             <NavLink to="/profile">profile</NavLink>
-            <NavLink onClick={handleLogout}>logout</NavLink>
+            <Link onClick={handleLogout}>logout</Link>
         </nav>
     );
 }

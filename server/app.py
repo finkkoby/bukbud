@@ -73,6 +73,11 @@ class Reviews(Resource):
     def get(self):
         reviews = [review.to_dict() for review in Review.query.all()]
         return make_response(reviews, 200)
+    
+class Books(Resource):
+    def get(self):
+        books = [book.to_dict() for book in Book.query.all()]
+        return make_response(books, 200)
                 
 
 api.add_resource(Login, '/api/login')
@@ -80,6 +85,7 @@ api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check-session')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(Reviews, '/api/reviews')
+api.add_resource(Books, '/api/books')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

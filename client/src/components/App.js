@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar"
 import Header from "./Header"
 import Login from "./Login"
@@ -11,7 +11,10 @@ function App() {
   const [signup, setSignup] = useState(false);
   const [user, setUser] = useState(null)
   const [reviews, setReviews] = useState([])
+  const [books, setBooks] = useState([])
   const [error, setError] = useState(null)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch('http://localhost:5555/api/check-session').then((response) => {
@@ -27,6 +30,22 @@ function App() {
        if (r.ok) {
          r.json().then((res) => {
            setReviews(res)
+         })
+       }
+       else {
+         r.json().then((res) => {
+           setError(res.error)
+         })
+       }
+    })
+  }, [])
+
+  useEffect(() => {
+    fetch('http://localhost:5555/api/books')
+    .then((r) => {
+       if (r.ok) {
+         r.json().then((res) => {
+           setBooks(res)
          })
        }
        else {
@@ -67,7 +86,9 @@ function App() {
           "user": user,
           "setSignup": setSignup,
           "setUser": setUser,
-          "reviews": reviews
+          "reviews": reviews,
+          "books": books,
+          "navigate": navigate
           }} />
       </div>
   );

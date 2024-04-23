@@ -39,6 +39,12 @@ h3 {
   color: var(--two)
 }
 
+h4 {
+  text-align: center;
+  margin: 10px auto 30px auto;
+}
+
+
 
 :root {
   --one: #F78404;
@@ -227,4 +233,9 @@ div.book-image img{
   width: 200px;
   height: 320px;
   margin: 10px;
+}
+
+p.review {
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 1px;
 }

@@ -12,6 +12,7 @@ function Home() {
         <div>
             <h1 className="title-header">the latest <span className="special-text">buzz</span>...</h1>
             {reviewCards}
+            <h4>you're all up to date :)</h4>
         </div>
     );
 }

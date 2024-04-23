@@ -10,7 +10,7 @@ function ReviewCard({ review }) {
                 <h2 className="review">"<em>{review.book.title}</em>" by {review.book.author.name}</h2>
                 <h5 className="review">{review.rating} stars</h5>
                 <p className="review">{review.comment}</p>
-                <small className="review">{review.user.username}</small>
+                <small className="review">@{review.user.username}</small>
             </div>
         </div>
     );

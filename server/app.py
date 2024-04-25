@@ -78,6 +78,24 @@ class Books(Resource):
     def get(self):
         books = [book.to_dict() for book in Book.query.order_by('title').all()]
         return make_response(books, 200)
+    
+class AddNewReview(Resource):
+    def post(self):
+        json = request.get_json()
+        try:
+            user = User.query.filter(User.id == session['user_id']).first()
+            return make_response(user.to_dict(), 200)
+            if user:
+                try:
+                    book = Book.query.filter(Book.id == json['book']).first()
+                    review = Review(user=user, book=book, rating=int(json['rating']), comment=json['comment'])
+                    db.session.add(review)
+                    db.session.commit()
+                    return make_response(review.to_dict(), 200)
+                except:
+                    return make_response({'error': "could not create review"}, 400)
+        except:
+            return make_response({'error': 'User not logged in'}, 401)
                 
 
 api.add_resource(Login, '/api/login')
@@ -86,6 +104,7 @@ api.add_resource(CheckSession, '/api/check-session')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(Reviews, '/api/reviews')
 api.add_resource(Books, '/api/books')
+api.add_resource(AddNewReview, '/api/add-new-review')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

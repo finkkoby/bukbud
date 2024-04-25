@@ -83,12 +83,16 @@ function App() {
         <Header />
         <Outlet context={{
           "signup": signup,
-          "user": user,
           "setSignup": setSignup,
+          "user": user,
           "setUser": setUser,
           "reviews": reviews,
+          "setReviews": setReviews,
           "books": books,
-          "navigate": navigate
+          "setBooks": setBooks,
+          "navigate": navigate,
+          "error": error,
+          "setError": setError
           }} />
       </div>
   );

@@ -7,7 +7,7 @@ import * as yup from "yup";
 
 
 function AddNewReview() {
-    const { user, books } = useOutletContext();
+    const { user, books, navigate, reviews, setReviews } = useOutletContext();
     const initialState = {
         error: null,
         status: "pending",
@@ -15,7 +15,7 @@ function AddNewReview() {
     const [{ error, status }, setState] = useState(initialState);
     const formSchema = yup.object().shape({
         book: yup.string().required("please select a book"),
-        rating: yup.number().required("please select a rating").min(0).max(5),
+        rating: yup.number().required("please select a rating").min(1).max(10),
         comment: yup.string().required("please enter a comment")
     })
     const formik = useFormik({
@@ -26,21 +26,25 @@ function AddNewReview() {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            fetch('http://localhost:5555/api/add-new-review', {
+            const requestBody = {
+                book: values.book,
+                rating: values.rating,
+                comment: values.comment
+            }
+            console.log(requestBody);
+            fetch("/api/add-new-review", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    user: user,
-                    book: values.book,
-                    rating: values.rating,
-                    comment: values.comment
-                })
+                body: JSON.stringify(requestBody)
             })
            .then(r => {
+                console.log(r);
                 if (r.ok) {
                     r.json().then(res => {
+                        console.log(res)
+                        setReviews([...reviews, res])
                         setState({
                             error: null,
                             status: "success"
@@ -59,44 +63,49 @@ function AddNewReview() {
         }
     })
 
-    const bookOptions = books.map(book => <option key={book.id} value={book}>"{book.title}" by {book.author.name}</option>)
+    const bookOptions = books.map(book => <option key={book.id} value={book.id}>"{book.title}" by {book.author.name}</option>)
 
     return (
-        <div>
-            <h1>Add New Review</h1>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="book">
-                    book
-                    <select
-                    id="book"
-                    value={formik.values.book}
-                    onChange={formik.handleChange}
-                    >
-                        {bookOptions}
-                    </select>
-                </label>
-                <label htmlFor="rating">
-                    rating
-                    <input
-                        type="text"
-                        id="rating"
-                        value={formik.values.rating}
-                        onChange={formik.handleChange}
-                    />
-                </label>
-                <label htmlFor="comment">
-                    comment
-                    <input
-                        type="text"
-                        id="comment"
-                        value={formik.values.comment}
-                        onChange={formik.handleChange}
-                    />
-                </label>
-                <button type="submit">submit</button>
-                { error? <p>{error}</p> : null}
-            </form>
-        </div>
+        <>
+            <h1 className='title-header'>add new <span className="special-text">review</span></h1>
+            <div className="form-body" id="add-new-review">
+                <form className='left-form' onSubmit={formik.handleSubmit}>
+                    <div className="input-fields">
+                        <label htmlFor="book">
+                            book
+                            <select
+                            id="book"
+                            value={formik.values.book}
+                            onChange={formik.handleChange}
+                            >
+                                <option value="">select a book</option>
+                                {bookOptions}
+                            </select>
+                        </label>
+                        <label htmlFor="rating">
+                            rating
+                            <input
+                                type="text"
+                                id="rating"
+                                value={formik.values.rating}
+                                onChange={formik.handleChange}
+                            />
+                        </label>
+                        <label htmlFor="comment">
+                            comment
+                            <textarea
+                                type="text-area"
+                                id="comment"
+                                value={formik.values.comment}
+                                onChange={formik.handleChange}
+                            />
+                        </label>
+                    </div>
+                    <button type="submit">submit</button>
+                    { error? <p>{error}</p> : null}
+                </form>
+            </div>
+        </>
     );
 }
 

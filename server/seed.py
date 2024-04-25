@@ -72,7 +72,7 @@ if __name__ == '__main__':
         for i in range(25):
             user = users[randint(0, 24)]
             book = books[randint(0, 24)]
-            rating = fake.pyfloat(left_digits=1, right_digits=1, min_value=0, max_value=5)
+            rating = randint(1, 10)
             comment = fake.paragraph()
             reviews.append(Review(user=user, book=book, rating=rating, comment=comment))
         db.session.add_all(reviews)

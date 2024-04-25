@@ -53,7 +53,7 @@ class Review(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
-    rating = db.Column(db.Float, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.String)
 
     # Relationships
@@ -67,8 +67,8 @@ class Review(db.Model, SerializerMixin):
     # Validations
     @validates('rating')
     def validate_rating(self, key, value):
-        if not 0.0 <= value <= 5.0:
-            raise ValueError(f'Rating must be between 0.0 and 5.0')
+        if not 1 <= value <= 10:
+            raise ValueError(f'Rating must be between 1 and 10')
         return value
 
     # Other methods

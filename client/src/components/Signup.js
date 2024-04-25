@@ -58,7 +58,7 @@ function Signup({ setSignup, setUser }) {
         <>
             <h3 className='login-header'>see what we're <span className='special-text'>buzzing</span> about...</h3>
             <div className="form-body">
-                <form id="signup-form" onSubmit={formik.handleSubmit}>
+                <form className="right-form" onSubmit={formik.handleSubmit}>
                     <div className="input-fields">
                         <label htmlFor="username">
                             username

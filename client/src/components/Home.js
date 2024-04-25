@@ -6,7 +6,7 @@ import ReviewCard from './ReviewCard';
 function Home() {
     const { reviews, navigate } = useOutletContext()
 
-    const reviewCards = reviews.map(review => <ReviewCard review={review} />);
+    const reviewCards = reviews.map(review => <ReviewCard key={review.id} review={review} />);
 
     return (
         <div>

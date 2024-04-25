@@ -30,6 +30,8 @@ function Login({ setSignup, setUser }) {
             .then(r => {
                 if (r.ok) {
                     r.json().then(res => {
+                        console.log(res.session)
+                        console.log(res.user)
                         setUser(res);
                         setState({
                             user: res.username,

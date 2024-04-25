@@ -12,12 +12,13 @@ function App() {
   const [user, setUser] = useState(null)
   const [reviews, setReviews] = useState([])
   const [books, setBooks] = useState([])
+  const [authors, setAuthors] = useState([])
   const [error, setError] = useState(null)
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch('http://localhost:5555/api/check-session').then((response) => {
+    fetch('/api/check-session').then((response) => {
       if (response.ok) {
         response.json().then((user) => setUser(user));
       }
@@ -25,7 +26,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:5555/api/reviews')
+    fetch('/api/reviews')
     .then((r) => {
        if (r.ok) {
          r.json().then((res) => {
@@ -41,7 +42,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    fetch('http://localhost:5555/api/books')
+    fetch('/api/books')
     .then((r) => {
        if (r.ok) {
          r.json().then((res) => {
@@ -55,10 +56,32 @@ function App() {
        }
     })
   }, [])
+  
+  useEffect(() => {
+    fetch('/api/authors')
+    .then((r) => {
+       if (r.ok) {
+         r.json().then((res) => {
+           setAuthors(res)
+         })
+       }
+       else {
+         r.json().then((res) => {
+           setError(res.error)
+         })
+       }
+    })
+  }, [])
 
   function handleLogout() {
-    fetch('http://localhost:5555/api/logout').then((response) => {
+    fetch('/api/logout', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
         if (response.ok) {
+            console.log(response)
             response.json().then(() => {
               setSignup(false)
               setUser(null)
@@ -91,6 +114,8 @@ function App() {
           "books": books,
           "setBooks": setBooks,
           "navigate": navigate,
+          "authors": authors,
+          "setAuthors": setAuthors,
           "error": error,
           "setError": setError
           }} />

@@ -140,6 +140,10 @@ div.form-body {
   font-size:larger;
 }
 
+div.form-body.new-form {
+  width: 600px;
+}
+
 div.form-body form.right-form{
   display: flex;
   flex-direction: column;
@@ -149,6 +153,12 @@ div.form-body form.right-form{
 div.form-body form.left-form{
   align-items: flex-start;
   font-size:larger;
+  margin-bottom: 30px;
+}
+
+button {
+  display: flex;
+  align-items: center;
 }
 
 .input-fields {
@@ -158,8 +168,10 @@ div.form-body form.left-form{
 
 form label {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  object-fit: contain;
 }
-
 
 form input, form select, form textarea {
   flex: 2;
@@ -168,7 +180,13 @@ form input, form select, form textarea {
   padding: 15px;
   letter-spacing: 2px;
   float: right;
+  width: 300px;
 }
+
+form select {
+  text-overflow: ellipsis;
+}
+
 
 span.special-text {
   font-family: titleFont;

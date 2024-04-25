@@ -31,11 +31,11 @@ function AddNewReview() {
                 rating: values.rating,
                 comment: values.comment
             }
-            console.log(requestBody);
-            fetch("/api/add-new-review", {
+            fetch("/api/reviews", {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accepts': 'application/json'
                 },
                 body: JSON.stringify(requestBody)
             })
@@ -68,7 +68,7 @@ function AddNewReview() {
     return (
         <>
             <h1 className='title-header'>add new <span className="special-text">review</span></h1>
-            <div className="form-body" id="add-new-review">
+            <div className="form-body new-form" id="add-new-review">
                 <form className='left-form' onSubmit={formik.handleSubmit}>
                     <div className="input-fields">
                         <label htmlFor="book">

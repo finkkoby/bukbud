@@ -49,7 +49,7 @@ function Profile() {
 
     const myReviews = reviews.filter(review => review.user.username === user.username)
 
-    const reviewCards = myReviews.map(review => <ReviewCard key={review.id} review={review}/>)
+    const reviewCards = myReviews.map(review => <ReviewCard key={review.id} review={review} boo={true}/>)
 
     const reviewSection = (
         <>

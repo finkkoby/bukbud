@@ -160,7 +160,7 @@ class ReviewById(Resource):
                     else:
                         return make_response({'error': 'Review not found'}, 404)
                 except:
-                    return make_response({'error': "could not create review"}, 400)
+                    return make_response({'error': "could not update review"}, 400)
         except:
             return make_response({'error': 'User not logged in'}, 401)
     
@@ -170,14 +170,14 @@ class ReviewById(Resource):
             if user:
                 try:
                     review = Review.query.filter(Review.id == review_id).first()
-                    if review:
+                    if review and user.id == review.user.id:
                         db.session.delete(review)
                         db.session.commit()
                         return make_response({}, 204)
                     else:
                         return make_response({'error': 'Review not found'}, 404)
                 except:
-                    return make_response({'error': "could not create review"}, 400)
+                    return make_response({'error': "could not delete review"}, 400)
         except:
             return make_response({'error': 'User not logged in'}, 401)
     

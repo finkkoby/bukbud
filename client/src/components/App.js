@@ -15,6 +15,8 @@ function App() {
   const [authors, setAuthors] = useState([])
   const [error, setError] = useState(null)
   const [reviewBook, setReviewBook] = useState(null)
+  const [reviewRating, setReviewRating] = useState(null)
+  const [reviewComment, setReviewComment] = useState(null)
 
 
   const navigate = useNavigate()
@@ -132,6 +134,10 @@ function App() {
           "setError": setError,
           "reviewBook": reviewBook,
           "setReviewBook": setReviewBook,
+          "reviewRating": reviewRating,
+          "setReviewRating": setReviewRating,
+          "reviewComment": reviewComment,
+          "setReviewComment": setReviewComment,
           }} />
       </div>
   );

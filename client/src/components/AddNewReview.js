@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useOutletContext } from "react-router-dom";
 
@@ -7,7 +7,16 @@ import * as yup from "yup";
 
 
 function AddNewReview() {
-    const { user, books, navigate, reviews, setReviews, reviewBook } = useOutletContext();
+    const { user, books, navigate, reviews, 
+        setReviews, reviewBook, setReviewBook, reviewRating, 
+        setReviewRating, reviewComment, setReviewComment } = useOutletContext();
+    useEffect(() => {
+        return (() => {
+            setReviewBook(null)
+            setReviewRating(null)
+            setReviewComment(null)
+        })
+    }, [])
     const initialState = {
         error: null,
         status: "pending",
@@ -20,9 +29,9 @@ function AddNewReview() {
     })
     const formik = useFormik({
         initialValues: {
-            book: reviewBook.id,
-            rating: '',
-            comment: ''
+            book: reviewBook ? reviewBook.id : '',
+            rating: reviewRating ? reviewRating : '',
+            comment: reviewComment ? reviewComment : ''
         },
         validationSchema: formSchema,
         onSubmit: (values) => {

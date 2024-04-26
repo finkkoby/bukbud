@@ -55,6 +55,8 @@ class Review(db.Model, SerializerMixin):
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.String)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    likes = db.Column(db.Integer, default=0)
 
     # Relationships
     book = db.relationship("Book", back_populates="reviews")

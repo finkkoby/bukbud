@@ -7,7 +7,7 @@ import * as yup from "yup";
 
 
 function AddNewReview() {
-    const { user, books, navigate, reviews, setReviews } = useOutletContext();
+    const { user, books, navigate, reviews, setReviews, reviewBook } = useOutletContext();
     const initialState = {
         error: null,
         status: "pending",
@@ -20,35 +20,35 @@ function AddNewReview() {
     })
     const formik = useFormik({
         initialValues: {
-            book: '',
+            book: reviewBook.id,
             rating: '',
             comment: ''
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            const requestBody = {
-                book: values.book,
-                rating: values.rating,
-                comment: values.comment
-            }
             fetch("/api/reviews", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accepts': 'application/json'
+                    'Accepts': 'application/json',
                 },
-                body: JSON.stringify(requestBody)
+                body: JSON.stringify({
+                    book: values.book,
+                    rating: values.rating,
+                    comment: values.comment
+                })
             })
            .then(r => {
                 console.log(r);
                 if (r.ok) {
                     r.json().then(res => {
                         console.log(res)
-                        setReviews([...reviews, res])
+                        setReviews([res, ...reviews])
                         setState({
                             error: null,
                             status: "success"
                         });
+                        navigate('/')
                     });
                 }
                 else {
@@ -101,7 +101,7 @@ function AddNewReview() {
                             />
                         </label>
                     </div>
-                    <button type="submit">submit</button>
+                    <button type="submit" >submit</button>
                     { error? <p>{error}</p> : null}
                 </form>
             </div>

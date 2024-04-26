@@ -15,6 +15,11 @@ function Books() {
             <div className="book-cards">
                 {bookCards}
             </div>
+            <h4>you reached the end of the shelf :)</h4>
+            <button onClick={() => {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }}>back to top?</button>
         </div>
     );
 }

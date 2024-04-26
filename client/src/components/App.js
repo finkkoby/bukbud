@@ -14,6 +14,8 @@ function App() {
   const [books, setBooks] = useState([])
   const [authors, setAuthors] = useState([])
   const [error, setError] = useState(null)
+  const [reviewBook, setReviewBook] = useState(null)
+
 
   const navigate = useNavigate()
 
@@ -98,6 +100,16 @@ function App() {
       </>
     );
   }
+
+  const sortedBooks = books.sort((a, b) => {
+    if (a.title > b.title) {
+      return 1;
+    } else if (a.title < b.title) {
+      return -1;
+    } else {
+      return 0;
+    }
+  })
   
 
   return (
@@ -111,13 +123,15 @@ function App() {
           "setUser": setUser,
           "reviews": reviews,
           "setReviews": setReviews,
-          "books": books,
+          "books": sortedBooks,
           "setBooks": setBooks,
           "navigate": navigate,
           "authors": authors,
           "setAuthors": setAuthors,
           "error": error,
-          "setError": setError
+          "setError": setError,
+          "reviewBook": reviewBook,
+          "setReviewBook": setReviewBook,
           }} />
       </div>
   );

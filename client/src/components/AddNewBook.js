@@ -13,7 +13,13 @@ function AddNewBook() {
         status: "pending",
       };
     const [{ error, status }, setState] = useState(initialState);
-    const formSchema = yup.object().shape({})
+    const formSchema = yup.object().shape({
+        title: yup.string().required("please enter a title"),
+        author: yup.string().required("please select an author"),
+        genre: yup.string().required("please select a genre"),
+        length: yup.string().required("please enter a length"),
+        image: yup.string().required("please enter an image url")
+    })
     const formik = useFormik({
         initialValues: {
             title: '',
@@ -31,7 +37,7 @@ function AddNewBook() {
                 length: values.length,
                 image: values.image
             }
-            fetch("/api/add-new-book", {
+            fetch("/api/books", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -46,6 +52,7 @@ function AddNewBook() {
                             error: null,
                             status: "success"
                         });
+                        navigate('/books')
                     });
                 }
                 else {
@@ -121,9 +128,7 @@ function AddNewBook() {
                             />
                         </label>
                     </div>
-                    <div>
-                        <button type="submit">submit</button>                        
-                    </div>
+                    <button type="submit">submit</button>                        
                     { error? <p>{error}</p> : null}
                 </form>
             </div>

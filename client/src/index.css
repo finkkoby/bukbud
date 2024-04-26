@@ -12,6 +12,7 @@ html {
   font-family: textFont;
   letter-spacing: 5px;
   color: var(--two);
+  padding-bottom: 50px;
 }
 
 button {
@@ -238,7 +239,8 @@ div.review-card {
   border-color: white;
   border-radius: 5px;
   box-sizing: content-box;
-  width: 70%;
+  min-width: 600px;
+  max-width: 1100px;
   padding: 10px 20px;
   margin: 15px auto;
 }
@@ -261,6 +263,7 @@ div.review-body {
   flex-direction: column;
   align-items: flex-start;
   color: white;
+  width: 100%;
 }
 
 div.book-image img{
@@ -315,6 +318,7 @@ div.book-card small {
 div.book-card:hover {
   top: -5px;
   box-shadow: lightslategray 0px 2px 3px;
+  cursor: pointer;
 }
 
 div.add-button {
@@ -327,7 +331,7 @@ div.add-button {
   padding: 10px 20px;
   color: var(--four);
   width: 20%;
-  transition: width 0.5s ease;
+  transition: width 0.35s ease;
 }
 
 div.add-button h1 {
@@ -340,5 +344,29 @@ div.add-button h1 {
 div.add-button:hover {
   cursor: pointer;
   color: var(--five);
-  width: 70%;
+  width: 500px;
+}
+
+div.bottom-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0px;
+}
+
+div.likes {
+  display: flex;
+  margin: 0px 20px;
+}
+
+button.like-btn {
+  margin: 2px;
+  padding: 2px;
+}
+
+button.like-btn:active {
+  box-shadow: none;
+  text-shadow: var(--two) -2px 2px 12px;
 }

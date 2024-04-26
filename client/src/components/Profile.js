@@ -1,10 +1,15 @@
 import React from "react";
+import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 import { useFormik } from "formik";
+import ReviewCard from "./ReviewCard";
 
 function Profile() {
-    const { user } = useOutletContext()
+    const { user, setUser, reviews } = useOutletContext()
+
+    const [update, setUpdate] = useState(false)
+    const [error, setError] = useState(null)
 
     const formik = useFormik(
         {
@@ -15,10 +20,46 @@ function Profile() {
                 age: user.age,
             },
             onSubmit: (values) => {
-                console.log(values);
+                fetch('/api/profile', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: values.username,
+                        password: values.current,
+                        confirm_password: values.new,
+                        age: values.age
+                    })
+                }).then((response) => {
+                    if (response.ok) {
+                        response.json().then(res => {
+                            setUser(res)
+                            setUpdate(true)
+                        })
+                    } else {
+                        response.json().then(res => {
+                            setError(res.error)
+                        })
+                    }
+                })
             }
         }
     )
+
+    const myReviews = reviews.filter(review => review.user.username === user.username)
+
+    const reviewCards = myReviews.map(review => <ReviewCard key={review.id} review={review}/>)
+
+    const reviewSection = (
+        <>
+            <h1 className="title-header">my <span className="special-text">reviews</span>...</h1>
+            <div className="review-cards">
+                {reviewCards}
+            </div>
+        </>
+    )
+
     return (
         <div>
             <h1 className="title-header">my <span className="special-text">profile</span>...</h1>
@@ -63,8 +104,11 @@ function Profile() {
                         </label>
                     </div>
                     <button type="submit">update</button>
+                    { update ? <div className="bottom-text"><p>profile updated!</p></div> : null}
+                    { error? <div className="bottom-text"><p>{error}</p></div> : null}
                 </form>
             </div>
+            { myReviews.length > 0 ? reviewSection : <div className="bottom-text"><p>you haven't written any reviews yet :)</p></div> }
         </div>
     );
 }

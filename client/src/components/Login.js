@@ -17,7 +17,7 @@ function Login({ setSignup, setUser }) {
             password: ''
         },
         onSubmit: (values) => {
-            fetch('http://localhost:5555/api/login', {
+            fetch('/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

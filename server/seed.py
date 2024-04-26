@@ -74,7 +74,8 @@ if __name__ == '__main__':
             book = books[randint(0, 24)]
             rating = randint(1, 10)
             comment = fake.paragraph()
-            reviews.append(Review(user=user, book=book, rating=rating, comment=comment))
+            likes = randint(0, 300)
+            reviews.append(Review(user=user, book=book, rating=rating, comment=comment, likes=likes))
         db.session.add_all(reviews)
 
         db.session.commit()

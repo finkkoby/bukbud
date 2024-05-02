@@ -71,7 +71,7 @@ function Login({ setSignup, setUser }) {
                         <label htmlFor='password'>
                             password 
                             <input
-                            type="text"
+                            type="password"
                             id="password"
                             value={formik.values.password}
                             onChange={formik.handleChange}

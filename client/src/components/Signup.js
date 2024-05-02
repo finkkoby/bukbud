@@ -72,7 +72,7 @@ function Signup({ setSignup, setUser }) {
                         <label htmlFor="password">
                             password 
                             <input
-                                type="text"
+                                type="password"
                                 id="password"
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
@@ -81,7 +81,7 @@ function Signup({ setSignup, setUser }) {
                         <label htmlFor="confirm">
                             confirm password 
                             <input
-                                type="text"
+                                type="password"
                                 id="confirm"
                                 onChange={formik.handleChange}
                                 value={formik.values.confirm}

@@ -78,7 +78,7 @@ function Profile() {
                         <label htmlFor="current">
                             current password
                             <input
-                                type="text"
+                                type="password"
                                 id="current"
                                 value={formik.values.current}
                                 onChange={formik.handleChange}
@@ -87,7 +87,7 @@ function Profile() {
                         <label htmlFor="new">
                             new password
                             <input
-                            type="text"
+                            type="password"
                             id="new"
                             onChange={formik.handleChange}
                             value={formik.values.new}

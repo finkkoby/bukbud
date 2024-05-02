@@ -24,7 +24,7 @@ function AddNewReview() {
     const [{ error, status }, setState] = useState(initialState);
     const formSchema = yup.object().shape({
         book: yup.string().required("please select a book"),
-        rating: yup.number().required("please select a rating").min(1).max(10),
+        rating: yup.number("rating must be a number").required("please select a rating").min(1).max(10),
         comment: yup.string().required("please enter a comment")
     })
     const formik = useFormik({
@@ -34,6 +34,7 @@ function AddNewReview() {
             comment: reviewComment ? reviewComment : ''
         },
         validationSchema: formSchema,
+        validateOnChange: false,
         onSubmit: (values) => {
             fetch("/api/reviews", {
                 method: 'POST',
@@ -73,7 +74,6 @@ function AddNewReview() {
     })
 
     const bookOptions = books.map(book => <option key={book.id} value={book.id}>"{book.title}" by {book.author.name}</option>)
-
     return (
         <>
             <h1 className='title-header'>add new <span className="special-text">review</span></h1>
@@ -111,8 +111,10 @@ function AddNewReview() {
                         </label>
                     </div>
                     <button type="submit" >submit</button>
-                    { error? <p>{error}</p> : null}
                 </form>
+                { formik.errors.book ? <p className='error'>** {formik.errors.book} **</p> : null}
+                { formik.errors.rating ? <p className='error'>** {formik.errors.rating} **</p> : null}
+                { formik.errors.comment ? <p className='error'>** {formik.errors.comment} **</p> : null}
             </div>
         </>
     );

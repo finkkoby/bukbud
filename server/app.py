@@ -55,10 +55,9 @@ class Signup(Resource):
         return make_response({'message': 'Only accepts post requests'}, 200)
     def post(self):
         json = request.get_json()
-        try:
-            user = User(username=json['username'], age=json['age'])
-        except:
+        if User.query.filter(User.username == json['username']).first():
             return {'error': 'Username already taken'}, 400
+        user = User(username=json['username'], age=json['age'])
         if json['password'] == json['confirm_password']:
             user.password_hash = json['password']
         else:
@@ -79,7 +78,11 @@ class Profile(Resource):
         json = request.get_json()
         try:
             user = User.query.filter(User.id == session.get('user_id')).first()
+            user.authenticate(json[json['password']])
             if user:
+                check_username = User.query.filter(User.username == json['username']).first()
+                if check_username and check_username.id != user.id:
+                    return {'error': 'Username already taken'}, 400
                 user.username = json['username']
                 user.age = json['age']
                 if json['password'] != '' and json['confirm_password'] != '':

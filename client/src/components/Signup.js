@@ -2,6 +2,8 @@ import React from "react";
 import { useFormik } from "formik";
 import { useState } from "react";
 
+import * as yup from "yup";
+
 const initialState = {
     user: null,
     error: null,
@@ -10,6 +12,14 @@ const initialState = {
 
 function Signup({ setSignup, setUser }) {
     const [{ user, error, status }, setState] = useState(initialState);
+
+    const formSchema = yup.object().shape({
+        username: yup.string().required("please enter a username"),
+        password: yup.string().required("please enter a password"),
+        confirm: yup.string().oneOf([yup.ref('password'), null], "passwords must match").required("please confirm your password"),
+        age: yup.number().positive("please enter valid age").integer("please enter valid age").required("please enter your age")
+    })
+
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -17,6 +27,8 @@ function Signup({ setSignup, setUser }) {
             confirm: '',
             age: '',
         },
+        validationSchema: formSchema,
+        validateOnChange: false,
         onSubmit: (values) => {
             fetch('http://localhost:5555/api/signup', {
                 method: 'POST',
@@ -54,6 +66,8 @@ function Signup({ setSignup, setUser }) {
         }
     })
 
+    console.log(error)
+
     return (
         <>
             <h3 className='login-header'>see what we're <span className='special-text'>buzzing</span> about...</h3>
@@ -69,6 +83,7 @@ function Signup({ setSignup, setUser }) {
                                 onChange={formik.handleChange}
                             />
                         </label>
+                        { formik.errors.username ? <p className="error">{formik.errors.username}</p> : null }
                         <label htmlFor="password">
                             password 
                             <input
@@ -78,6 +93,7 @@ function Signup({ setSignup, setUser }) {
                                 onChange={formik.handleChange}
                             />
                         </label>
+                        { formik.errors.password ? <p className="error">{formik.errors.password}</p> : null }
                         <label htmlFor="confirm">
                             confirm password 
                             <input
@@ -87,6 +103,7 @@ function Signup({ setSignup, setUser }) {
                                 value={formik.values.confirm}
                             />
                         </label>
+                        { formik.errors.confirm ? <p className="error">{formik.errors.confirm}</p> : null }
                         <label htmlFor="age">
                             age
                             <input
@@ -97,9 +114,10 @@ function Signup({ setSignup, setUser }) {
                                 onChange={formik.handleChange}
                             />
                         </label>
+                        { formik.errors.age ? <p className="error">please enter valid age</p> : null }
+                        { error ? <p className="error">{error}</p> : null}
                     </div>
                     <button type="submit">signup</button>
-                    { error ? <p>{error}</p> : null}
                 </form>
                 <p className="center">already in the hive? <span className="special" onClick={() => setSignup(false)}>login</span></p> 
             </div>

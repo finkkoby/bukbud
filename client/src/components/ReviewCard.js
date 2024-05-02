@@ -10,6 +10,7 @@ function ReviewCard({ review, boo=false }) {
     const [likes, setLikes] = useState(review.likes)
 
     function handleLike(e) {
+        e.stopPropagation();
         fetch(`/api/reviews/${review.id}`, {
             method: 'PATCH',
             headers: {
@@ -32,6 +33,7 @@ function ReviewCard({ review, boo=false }) {
     }
 
     function handleDelete(e) {
+        e.stopPropagation();
         fetch(`/api/reviews/${review.id}`, {
             method: 'DELETE',
             headers: {

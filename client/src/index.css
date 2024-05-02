@@ -142,7 +142,7 @@ div.form-body {
 }
 
 div.form-body.new-form {
-  width: 600px;
+  width: 650px;
 }
 
 div.form-body form.right-form{
@@ -387,4 +387,9 @@ button.delete-btn:active {
   text-shadow: var(--two) -2px 2px 12px;
 }
 
-
+p.error {
+  margin: 5px;
+  display: block;
+  text-align: center;
+  font-size: medium;
+}

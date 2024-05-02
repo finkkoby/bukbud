@@ -5,11 +5,26 @@ import { useOutletContext } from "react-router-dom";
 import { useFormik } from "formik";
 import ReviewCard from "./ReviewCard";
 
+import * as yup from "yup";
+
 function Profile() {
     const { user, setUser, reviews } = useOutletContext()
 
     const [update, setUpdate] = useState(false)
     const [error, setError] = useState(null)
+
+    const formSchema = yup.object().shape({
+        username: yup.string().optional(),
+        current: yup.string().required("please enter your current password"),
+        new: yup.string().oneOf([yup.ref('current'), null], "passwords must match")
+            .when(['current'], {
+                is: val => val != '',
+                then: yup.string().required("please enter your new password"),
+                otherwise: yup.string().optional()
+            }
+        ),
+        age: yup.number().positive("please enter valid age").integer("please enter valid age").required("please enter your age")
+    })
 
     const formik = useFormik(
         {
@@ -60,6 +75,8 @@ function Profile() {
         </>
     )
 
+    console.log(formik.errors)
+
     return (
         <div>
             <h1 className="title-header">my <span className="special-text">profile</span>...</h1>
@@ -75,6 +92,7 @@ function Profile() {
                                 onChange={formik.handleChange}
                             />
                         </label>
+                        { formik.errors.username ? <p className="error">{formik.errors.username}</p> : null }
                         <label htmlFor="current">
                             current password
                             <input
@@ -84,6 +102,7 @@ function Profile() {
                                 onChange={formik.handleChange}
                             />
                         </label>
+                        { formik.errors.current ? <p className="error">{formik.errors.current}</p> : null }
                         <label htmlFor="new">
                             new password
                             <input
@@ -93,6 +112,7 @@ function Profile() {
                             value={formik.values.new}
                             />
                         </label>
+                        { formik.errors.new ? <p className="error">{formik.errors.new}</p> : null }
                         <label htmlFor="age">
                             age
                             <input
@@ -102,10 +122,11 @@ function Profile() {
                                 onChange={formik.handleChange}
                             />
                         </label>
+                        { formik.errors.age ? <p className="error">{formik.errors.age}</p> : null }
+                        { error? <p className="error">{error}</p> : null}
                     </div>
                     <button type="submit">update</button>
                     { update ? <div className="bottom-text"><p>profile updated!</p></div> : null}
-                    { error? <div className="bottom-text"><p>{error}</p></div> : null}
                 </form>
             </div>
             { myReviews.length > 0 ? reviewSection : <div className="bottom-text"><p>you haven't written any reviews yet :)</p></div> }

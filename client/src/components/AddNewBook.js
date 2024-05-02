@@ -17,7 +17,7 @@ function AddNewBook() {
         title: yup.string().required("please enter a title"),
         author: yup.string().required("please select an author"),
         genre: yup.string().required("please select a genre"),
-        length: yup.string().required("please enter a length"),
+        length: yup.number().positive("please enter valid book length").integer("please enter valid book length").required("please enter a length"),
         image: yup.string().required("please enter an image url")
     })
     const formik = useFormik({
@@ -29,6 +29,7 @@ function AddNewBook() {
             image: '',
         },
         validationSchema: formSchema,
+        validateOnChange: false,
         onSubmit: (values) => {
             const requestBody = {
                 title: values.title,
@@ -129,8 +130,12 @@ function AddNewBook() {
                         </label>
                     </div>
                     <button type="submit">submit</button>                        
-                    { error? <p>{error}</p> : null}
                 </form>
+                {formik.errors.title ? <p className="error">** {formik.errors.title} **</p> : null}
+                {formik.errors.author ? <p className="error">** {formik.errors.author} **</p> : null}
+                {formik.errors.genre ? <p className="error">** {formik.errors.genre} **</p> : null}
+                {formik.errors.length ? <p className="error">** please enter a valid book length **</p> : null}
+                {formik.errors.image ? <p className="error">** {formik.errors.image} **</p> : null}
             </div>
         </>
     );

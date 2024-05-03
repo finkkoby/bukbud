@@ -18,7 +18,7 @@ class User(db.Model, SerializerMixin):
     age = db.Column(db.Integer)
 
     # Relationships
-    reviews = db.relationship("Review", back_populates="user")
+    reviews = db.relationship("Review", back_populates="user", cascade='all')
     books = association_proxy("reviews", "book",
                               creator=lambda book: Review(book=book))
 

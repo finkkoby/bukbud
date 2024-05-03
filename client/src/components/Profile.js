@@ -16,13 +16,7 @@ function Profile() {
     const formSchema = yup.object().shape({
         username: yup.string().optional(),
         current: yup.string().required("please enter your current password"),
-        new: yup.string().oneOf([yup.ref('current'), null], "passwords must match")
-            .when(['current'], {
-                is: val => val != '',
-                then: yup.string().required("please enter your new password"),
-                otherwise: yup.string().optional()
-            }
-        ),
+        new: yup.string().optional().oneOf([yup.ref('current'), null], "passwords must match"),
         age: yup.number().positive("please enter valid age").integer("please enter valid age").required("please enter your age")
     })
 
@@ -34,6 +28,8 @@ function Profile() {
                 new: '',
                 age: user.age,
             },
+            validationSchema: formSchema,
+            validateOnChange: false,
             onSubmit: (values) => {
                 fetch('/api/profile', {
                     method: 'PATCH',
@@ -62,6 +58,21 @@ function Profile() {
         }
     )
 
+    function handleDeleteUser() {
+        fetch('/api/profile', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            if (response.ok) {
+                response.json().then(res => {
+                    setUser(null)
+                })
+            }
+        })
+    }
+
     const myReviews = reviews.filter(review => review.user.username === user.username)
 
     const reviewCards = myReviews.map(review => <ReviewCard key={review.id} review={review} boo={true}/>)
@@ -74,9 +85,7 @@ function Profile() {
             </div>
         </>
     )
-
-    console.log(formik.errors)
-
+    
     return (
         <div>
             <h1 className="title-header">my <span className="special-text">profile</span>...</h1>
@@ -116,7 +125,7 @@ function Profile() {
                         <label htmlFor="age">
                             age
                             <input
-                                type="text"
+                                type="number"
                                 id="age"
                                 value={formik.values.age}
                                 onChange={formik.handleChange}
@@ -126,10 +135,13 @@ function Profile() {
                         { error? <p className="error">{error}</p> : null}
                     </div>
                     <button type="submit">update</button>
-                    { update ? <div className="bottom-text"><p>profile updated!</p></div> : null}
                 </form>
+                { update ? <p className="message">profile updated!</p> : null}
             </div>
             { myReviews.length > 0 ? reviewSection : <div className="bottom-text"><p>you haven't written any reviews yet :)</p></div> }
+            <div>
+                <button className="delete-account" onClick={handleDeleteUser}>delete my account :(</button>
+            </div>
         </div>
     );
 }

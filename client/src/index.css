@@ -275,6 +275,7 @@ div.book-image img{
   width: 200px;
   height: 320px;
   margin: 10px;
+  padding: 15px;
 }
 
 p.review {
@@ -390,6 +391,24 @@ button.delete-btn:active {
 p.error {
   margin: 5px;
   display: block;
+  text-align: right;
+  font-size: medium;
+}
+
+p.message {
+  margin: 5px;
+  margin-bottom: 10px;
+  display: block;
   text-align: center;
   font-size: medium;
+}
+
+button.delete-account {
+  margin: 30px auto;
+  opacity: 50%;
+}
+
+button.delete-account:hover {
+  cursor: pointer;
+  opacity: 70%;
 }

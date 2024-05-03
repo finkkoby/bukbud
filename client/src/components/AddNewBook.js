@@ -113,7 +113,7 @@ function AddNewBook() {
                         <label htmlFor="length">
                             length
                             <input
-                                type="text"
+                                type="number"
                                 id="length"
                                 value={formik.values.length}
                                 onChange={formik.handleChange}

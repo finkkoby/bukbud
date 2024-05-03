@@ -17,6 +17,7 @@ function App() {
   const [reviewBook, setReviewBook] = useState(null)
   const [reviewRating, setReviewRating] = useState(null)
   const [reviewComment, setReviewComment] = useState(null)
+  const [review, setReview] = useState(null)
 
 
   const navigate = useNavigate()
@@ -138,6 +139,8 @@ function App() {
           "setReviewRating": setReviewRating,
           "reviewComment": reviewComment,
           "setReviewComment": setReviewComment,
+          "review": review,
+          "setReview": setReview,
           }} />
       </div>
   );

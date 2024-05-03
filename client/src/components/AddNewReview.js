@@ -9,18 +9,23 @@ import * as yup from "yup";
 function AddNewReview() {
     const { user, books, navigate, reviews, 
         setReviews, reviewBook, setReviewBook, reviewRating, 
-        setReviewRating, reviewComment, setReviewComment } = useOutletContext();
-    useEffect(() => {
-        return (() => {
-            setReviewBook(null)
-            setReviewRating(null)
-            setReviewComment(null)
-        })
-    }, [])
+        setReviewRating, reviewComment, setReviewComment,
+        review, setReview } = useOutletContext();
+    
     const initialState = {
         error: null,
         status: "pending",
       };
+    
+    useEffect(() => {
+        return function reset() {
+            setReviewBook(null)
+            setReviewRating(null)
+            setReviewComment(null)
+            setReview(null)
+        }
+    }, [])
+    
     const [{ error, status }, setState] = useState(initialState);
     const formSchema = yup.object().shape({
         book: yup.string().required("please select a book"),
@@ -73,6 +78,50 @@ function AddNewReview() {
         }
     })
 
+    function handleUpdate() {
+        fetch(`/api/reviews/${review.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accepts': 'application/json',
+            },
+            body: JSON.stringify({
+                book: formik.values.book,
+                rating: formik.values.rating,
+                comment: formik.values.comment,
+                likes: review.likes
+            })}).then(res => {
+                if (res.ok) {
+                    res.json().then(res => {
+                        reviews.map(review => {
+                            if (review.id === res.id) {
+                                return res
+                            } else {
+                                return review
+                            }
+                        })
+                        setState({
+                            error: null,
+                            status: "success"
+                        });
+                        setReviewBook(null)
+                        setReviewRating(null)
+                        setReviewComment(null)
+                        setReview(null)
+                        navigate('/')
+                    });
+                }
+                else {
+                    res.json().then(res => {
+                        setState({
+                            error: res.error,
+                            status: "error"
+                        });
+                    });
+                }
+            })
+    }   
+    
     const bookOptions = books.map(book => <option key={book.id} value={book.id}>"{book.title}" by {book.author.name}</option>)
     return (
         <>
@@ -91,15 +140,17 @@ function AddNewReview() {
                                 {bookOptions}
                             </select>
                         </label>
+                        { formik.errors.book ? <p className='error'>{formik.errors.book}</p> : null}
                         <label htmlFor="rating">
                             rating
                             <input
-                                type="text"
+                                type="number"
                                 id="rating"
                                 value={formik.values.rating}
                                 onChange={formik.handleChange}
                             />
                         </label>
+                        { formik.errors.rating ? <p className='error'>{formik.errors.rating}</p> : null}
                         <label htmlFor="comment">
                             comment
                             <textarea
@@ -109,12 +160,14 @@ function AddNewReview() {
                                 onChange={formik.handleChange}
                             />
                         </label>
+                        { formik.errors.comment ? <p className='error'>{formik.errors.comment}</p> : null}
                     </div>
+                    { review ? 
+                    <button onClick={handleUpdate} type="button">update</button> :
                     <button type="submit" >submit</button>
+                    }
+                    
                 </form>
-                { formik.errors.book ? <p className='error'>** {formik.errors.book} **</p> : null}
-                { formik.errors.rating ? <p className='error'>** {formik.errors.rating} **</p> : null}
-                { formik.errors.comment ? <p className='error'>** {formik.errors.comment} **</p> : null}
             </div>
         </>
     );

@@ -107,7 +107,7 @@ function Signup({ setSignup, setUser }) {
                         <label htmlFor="age">
                             age
                             <input
-                                type="text"
+                                type="number"
                                 id="age"
                                 placeholder="optional"
                                 value={formik.values.age}

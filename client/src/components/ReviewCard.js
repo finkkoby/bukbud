@@ -1,13 +1,12 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useOutletContext } from "react-router-dom";
 
 function ReviewCard({ review, boo=false }) {
 
-    const { user, reviews, setReviews, setReviewBook, setReviewRating, setReviewComment, navigate } = useOutletContext()
-
-    const [likes, setLikes] = useState(review.likes)
+    const { user, reviews, setReviews, setReviewBook, setReviewRating, 
+            setReview, setReviewComment, navigate } = useOutletContext()
 
     function handleLike(e) {
         e.stopPropagation();
@@ -17,12 +16,21 @@ function ReviewCard({ review, boo=false }) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                likes: likes + 1
+                book: review.book.id,
+                rating: review.rating,
+                comment: review.comment,
+                likes: review.likes + 1
             })
         }).then((response) => {
             if (response.ok) {
                 response.json().then(res => {
-                    setLikes(likes + 1)
+                    setReviews(reviews.map((review) => {
+                        if (review.id === res.id) {
+                            return res
+                        } else {
+                            return review
+                        }
+                    }))
                 })
             } else {
                 response.json().then(res => {
@@ -59,6 +67,7 @@ function ReviewCard({ review, boo=false }) {
                         setReviewBook(review.book)
                         setReviewRating(review.rating)
                         setReviewComment(review.comment)
+                        setReview(review)
                         navigate('/add-new-review')
                     }
                 });
@@ -67,8 +76,7 @@ function ReviewCard({ review, boo=false }) {
     }
 
     return (
-        <div key={review.id} className="review-card" onClick={handleClick}>
-            <button></button>
+        <div key={review.id} className="review-card" onClick={boo ? handleClick : null}>
             <div className="book-image">
                 <img src={review.book.image} alt={review.book.title} />
             </div>
@@ -81,7 +89,7 @@ function ReviewCard({ review, boo=false }) {
                 </div>
                 <div className="likes">
                     <button className="like-btn" onClick={handleLike}>💛</button>
-                    <p>{likes} likes</p>
+                    <p>{review.likes} likes</p>
                     {boo ? <button className="delete-btn" onClick={handleDelete}>delete review</button> : null}
                 </div>
             </div>

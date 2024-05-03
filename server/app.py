@@ -96,6 +96,19 @@ class Profile(Resource):
                 return {'error': 'User not logged in'}, 401
         except:
             return {'error': 'User not logged in'}, 401
+        
+    def delete(self):
+        try:
+            user = User.query.filter(User.id == session.get('user_id')).first()
+            if user:
+                db.session.delete(user)
+                db.session.commit()
+                session['user_id'] = None
+                return {'message': 'User deleted'}, 200
+            else:
+                return {'error': 'User not logged in'}, 401
+        except:
+            return {'error': 'User not logged in'}, 401
     
 class Logout(Resource):
     def get(self):
@@ -157,6 +170,10 @@ class ReviewById(Resource):
                 try:
                     review = Review.query.filter(Review.id == review_id).first()
                     if review:
+                        book = Book.query.filter(Book.id == json['book']).first()
+                        review.book = book
+                        review.rating = int(json['rating'])
+                        review.comment = json['comment']
                         review.likes = int(json['likes'])
                         db.session.commit()
                         return make_response(review.to_dict(), 200)

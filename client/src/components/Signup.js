@@ -17,7 +17,7 @@ function Signup({ setSignup, setUser }) {
         username: yup.string().required("please enter a username"),
         password: yup.string().required("please enter a password"),
         confirm: yup.string().oneOf([yup.ref('password'), null], "passwords must match").required("please confirm your password"),
-        age: yup.number().positive("please enter valid age").integer("please enter valid age").required("please enter your age")
+        age: yup.number().positive("please enter valid age").integer("please enter valid age").optional()
     })
 
     const formik = useFormik({
@@ -65,8 +65,6 @@ function Signup({ setSignup, setUser }) {
             })
         }
     })
-
-    console.log(error)
 
     return (
         <>

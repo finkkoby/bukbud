@@ -93,9 +93,9 @@ class Profile(Resource):
                 db.session.commit()
                 return user.to_dict(), 200
             else:
-                return {'error': 'User not logged in'}, 401
+                return {'error': '1 User not logged in'}, 401
         except:
-            return {'error': 'User not logged in'}, 401
+            return {'error': '2 User not logged in'}, 401
         
     def delete(self):
         try:

@@ -125,7 +125,9 @@ function AddNewReview() {
     const bookOptions = books.map(book => <option key={book.id} value={book.id}>"{book.title}" by {book.author.name}</option>)
     return (
         <>
-            <h1 className='title-header'>add new <span className="special-text">review</span></h1>
+            { review ? 
+            <h1 className='title-header'>update <span className="special-text">review</span>...</h1> : 
+            <h1 className='title-header'>add new <span className="special-text">review</span>...</h1> }
             <div className="form-body new-form" id="add-new-review">
                 <form className='left-form' onSubmit={formik.handleSubmit}>
                     <div className="input-fields">

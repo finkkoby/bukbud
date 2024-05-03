@@ -40,8 +40,6 @@ function Login({ setSignup, setUser }) {
             .then(r => {
                 if (r.ok) {
                     r.json().then(res => {
-                        console.log(res.session)
-                        console.log(res.user)
                         setUser(res);
                         setState({
                             user: res.username,
@@ -89,7 +87,7 @@ function Login({ setSignup, setUser }) {
                             />
                         </label>
                         { formik.errors.password ? <p className="error">{formik.errors.password}</p> : null }
-                        { error ? <p className="error">{error}</p> : null}
+                        { error && (!formik.errors.username && !formik.errors.password) ? <p className="error">invalid username or password</p> : null}
                     </div>
                     <button type="submit">login</button>
                 </form>

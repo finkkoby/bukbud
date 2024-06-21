@@ -244,6 +244,10 @@ class Authors(Resource):
                     return make_response({'error': "could not create author"}, 400)
         except:
             return make_response({'error': 'User not logged in'}, 401)
+        
+class ManyReviews(Resource):
+    def get(self, num):
+        return [book.to_dict() for book in Book.query.all() if len(book.reviews) >= num], 200
                 
 
 api.add_resource(Login, '/api/login')
@@ -255,6 +259,7 @@ api.add_resource(ReviewById, '/api/reviews/<int:review_id>')
 api.add_resource(Books, '/api/books')
 api.add_resource(Authors, '/api/authors')
 api.add_resource(Profile, '/api/profile')
+api.add_resource(ManyReviews, '/api/many_reviews/<int:num>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
